@@ -6,6 +6,27 @@ from tqdm import trange, tqdm
 
 from models.PixelCNNPP import PixelCNNPP
 from utils.losses import logistic_mixture_loss
+import matplotlib.pyplot as plt
+
+######### Sample ##############
+
+def imsave(batch_or_tensor, title=None, figsize=None, filename="sample.png"):
+  """Renders tensors as an image using Matplotlib.
+  Args:
+    batch_or_tensor: A batch or single tensor to render as images. If the batch
+      size > 1, the tensors are flattened into a horizontal strip before being
+      rendered.
+    title: The title for the rendered image. Passed to Matplotlib.
+    figsize: The size (in inches) for the image. Passed to Matplotlib.
+  """
+  batch = batch_or_tensor
+  for i in range(batch.shape[0]):
+    image = tf.squeeze(batch[i], 2)
+    filename = "sample_" + str(i) + ".png"
+    plt.figure()
+    plt.imsave(filename,image)
+
+##################################
 
 
 @gin.configurable
@@ -142,5 +163,9 @@ def train(
             samples = model.sample(images_to_log)
             samples = tf.cast((samples + 1.0) * 127.5, tf.uint8)
             tf.summary.image("samples", samples, step=epoch, max_outputs=images_to_log)
+            title_str = "Epoch:" + str(epoch)
+            filename_str = "sample_epoch_" + str(epoch) + ".png"
+            imsave(samples,title = title_str, filename = filename_str)
+
 
         manager.save(epoch)
