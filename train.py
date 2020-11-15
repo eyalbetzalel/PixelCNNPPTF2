@@ -42,7 +42,7 @@ def train(
     max_epoch=5000,
     chkpt_to_keep=5,
     images_to_log=16,
-    log_images_every=1,
+    log_images_every=15,
     debug=False,
     **kwargs
 ):
