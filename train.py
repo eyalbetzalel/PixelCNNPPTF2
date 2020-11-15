@@ -163,9 +163,9 @@ def train(
             samples = model.sample(images_to_log)
             samples = tf.cast((samples + 1.0) * 127.5, tf.uint8)
             tf.summary.image("samples", samples, step=epoch, max_outputs=images_to_log)
-            title_str = "Epoch:" + str(epoch)
-            filename_str = "sample_epoch_" + str(epoch) + ".png"
-            imsave(samples,title = title_str, filename = filename_str)
+            #title_str = "Epoch:" + str(epoch)
+            #filename_str = "sample_epoch_" + str(epoch) + ".png"
+            #imsave(samples,title = title_str, filename = filename_str)
 
 
         manager.save(epoch)
