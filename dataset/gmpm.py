@@ -13,7 +13,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
     
     def _process_image(image):
         #image = tf.image.resize(image[:, :, None], (image_size, image_size))
-        image = tf.reshape(image,[-1,1,1])
+        image = tf.reshape(image,[32,32,1])
         image = tf.cast(image, tf.float32) * (2.0 / 511) - 1.0
 
         return image
