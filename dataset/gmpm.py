@@ -43,7 +43,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
 
         return train, test
     
-    directory = "./raw_dataset_h5"
+    directory = "./"
 
     train, test = load_h5_dataset(directory)
 
