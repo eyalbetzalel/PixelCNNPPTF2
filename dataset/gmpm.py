@@ -43,7 +43,7 @@ def dataset(train, test, batch_size=32, image_size=32, buffer_size=10000):
 
         return train, test
     
-    directory = r"C:\Users\eyalb\Desktop\Master\loadh5files"
+    directory = "/home/dsi/eyalbetzalel/image-gpt/raw_dataset_h5"
 
     train, test = load_h5_dataset(directory)
 
