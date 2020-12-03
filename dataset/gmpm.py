@@ -9,7 +9,7 @@ AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 @gin.configurable
 
-def dataset(train, test, batch_size=32, image_size=32, buffer_size=10000):
+def dataset(batch_size=32, image_size=32, buffer_size=10000):
     
     def _process_image(image):
         #image = tf.image.resize(image[:, :, None], (image_size, image_size))
