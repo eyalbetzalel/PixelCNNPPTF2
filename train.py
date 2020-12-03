@@ -58,12 +58,14 @@ def train(
     structure = tf.data.experimental.get_structure(train_iterator)
     _, width, height, channels = structure.shape.as_list()
     inputs_shape = tf.TensorShape([None, width, height, channels])
-    import ipdb; ipdb.set_trace()
+    
     learning_rate_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
         learning_rate, max_epoch, learning_rate_decay
     )
 
     with strategy.scope():
+        
+        import ipdb; ipdb.set_trace()
         model = model_cls(inputs_shape)
         model.build(inputs_shape)
 
