@@ -56,7 +56,6 @@ def train(
     eval_iterator = strategy.experimental_distribute_dataset(eval_dataset)
 
     structure = tf.data.experimental.get_structure(train_iterator)
-    import ipdb; ipdb.set_trace()
     _, width, height, channels = structure.shape.as_list()
     inputs_shape = tf.TensorShape([None, width, height, channels])
 
