@@ -44,7 +44,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
 
         return train, test
     
-    def clusters_to_images(pathToCluster, samples): 
+    def clusters_to_images(samples, pathToCluster): 
         
         clusters = np.load(pathToCluster)
         samples = [np.reshape(np.rint(127.5 * (clusters[s] + 1.0)), [32, 32, 3]).astype(np.uint8) for s in samples]
