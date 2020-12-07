@@ -49,7 +49,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
         clusters = np.load(pathToCluster)
         samples_images = []
         for img in samples:
-            samples_images.append([np.reshape(np.rint(127.5 * (clusters[tf.cast(s, tf.int)] + 1.0)), [32, 32, 3]).astype(np.uint8) for s in img])
+            samples_images.append([np.reshape(np.rint(127.5 * (clusters[int(s)] + 1.0)), [32, 32, 3]).astype(np.uint8) for s in img])
         
         return samples_images
         
