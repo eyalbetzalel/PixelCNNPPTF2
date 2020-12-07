@@ -56,7 +56,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
 
     train, test = load_h5_dataset(directory)
     
-    pathToCluster = "./" # TODO : add path to cluster dir
+    pathToCluster = "/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy" # TODO : add path to cluster dir
     train = clusters_to_images(train,pathToCluster)
     test = clusters_to_images(test,pathToCluster)
 
