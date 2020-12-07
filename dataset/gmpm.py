@@ -44,9 +44,21 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
 
         return train, test
     
+    def clusters_to_images(pathToCluster, samples): 
+        
+        clusters = np.load(args.color_cluster_path)
+        samples = [np.reshape(np.rint(127.5 * (clusters[s] + 1.0)), [32, 32, 3]).astype(np.uint8) for s in samples]
+        
+        return samples
+        
+    
     directory = "./"
 
     train, test = load_h5_dataset(directory)
+    
+    pathToCluster = "./" # TODO : add path to cluster dir
+    train = clusters_to_images(train,pathToCluster)
+    test = clusters_to_images(test,pathToCluster)
 
     train = (
         tf.data.Dataset.from_tensor_slices(train)
