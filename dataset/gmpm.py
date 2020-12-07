@@ -47,9 +47,8 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
     def clusters_to_images(samples, pathToCluster): 
         import ipdb; ipdb.set_trace()
         clusters = np.load(pathToCluster)
-        samples_images = []
-        for img in samples:
-            samples_images.append([np.reshape(np.rint(127.5 * (clusters[int(s)] + 1.0)), [32, 32, 3]).astype(np.uint8) for s in img])
+        
+        samples = [np.reshape(np.rint(127.5 * (clusters[int(s)] + 1.0)), [32, 32, 3]).astype(np.uint8) for s in samples]
         
         return samples_images
         
