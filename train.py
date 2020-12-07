@@ -104,9 +104,13 @@ def train(
         def eval_step(batch):
             def step_fn(inputs):
                 mixture = model(inputs, training=False)
-                loss = logistic_mixture_loss(
-                    inputs, mixture, num_mixtures=model.num_mixtures
-                )
+                
+                # loss = logistic_mixture_loss(
+                #     inputs, mixture, num_mixtures=model.num_mixtures
+                # )
+                
+                scce = tf.keras.losses.SparseCategoricalCrossentropy()
+                loss = scce(inputs, mixture).numpy()
 
                 return loss
 
