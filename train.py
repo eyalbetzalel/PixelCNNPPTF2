@@ -1,4 +1,5 @@
 import tensorflow as tf
+tf.enable_eager_execution()
 import gin
 import logging
 from tqdm import trange, tqdm
