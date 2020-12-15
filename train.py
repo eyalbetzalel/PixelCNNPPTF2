@@ -6,6 +6,7 @@ from models.PixelCNNPP import PixelCNNPP
 from utils.losses import logistic_mixture_loss
 import matplotlib.pyplot as plt
 import numpy as np
+tf.compat.v1.enable_eager_execution()
 
 global clusters
 pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"  # TODO : add path to cluster dir
@@ -87,7 +88,6 @@ def train(
     with strategy.scope():
 
         def clusters_to_images(samples):
-            tf.enable_eager_execution()
             samples = samples.numpy()
             samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
             samples = tf.convert_to_tensor(samples, np.float32)
