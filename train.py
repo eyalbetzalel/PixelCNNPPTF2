@@ -11,6 +11,7 @@ tf.compat.v1.enable_eager_execution()
 global clusters
 pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"  # TODO : add path to cluster dir
 clusters = np.load(pathToCluster)
+clusters = tf.convert_to_tensor(clusters, tf.dtypes.int32)
 
 ######### Sample ##############
 
@@ -88,17 +89,20 @@ def train(
     with strategy.scope():
 
         def clusters_to_images(samples):
+            test = tf.gather_nd(clusters,samples)
 
-            def inside_temp(samples):
-                # samples = samples.numpy()
-                # samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
-                samples = np.reshape(np.rint(127.5 * (clusters[samples] + 1.0)), [32, 32, 3])
-                samples = tf.convert_to_tensor(samples, np.float32)
-                return samples
+            # samples = samples.numpy()
+            # samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
+            # samples = tf.convert_to_tensor(samples, np.float32)
 
-            samples = tf.py_function(func=inside_temp, inp=samples.numpy().astype(int).tolist(), Tout=tf.float32)
+            # def inside_temp(samples):
+            #     samples = samples.numpy()
+            #     samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
+            #     samples = tf.convert_to_tensor(samples, np.float32)
+            #     return samples
+            # samples = tf.py_function(func=inside_temp, inp=samples, Tout=tf.float32)
 
-            return samples
+            return test
 
 
 
