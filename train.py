@@ -86,15 +86,12 @@ def train(
         @tf.function
         def train_step(batch):
 
-            def clusters_to_images(samples):
-                pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
-                clusters = np.load(pathToCluster)
-                samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in samples]
-                return samples
-
             def step_fn(inputs):
                 with tf.GradientTape() as tape:
-                    mixture = model(clusters_to_images(inputs), training=True)
+                    pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
+                    clusters = np.load(pathToCluster)
+                    inputs_3ch = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in inputs]
+                    mixture = model(inputs_3ch, training=True)
                     # loss = logistic_mixture_loss(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
