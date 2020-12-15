@@ -31,7 +31,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
                     a_group_key = list(f.keys())[0]
                     # Get the data
                     temp = list(f[a_group_key])
-                    data.append(temp[1:])
+                    data.append(temp[1:675840])
                     flagOneFile = 1
                 continue
             else:
