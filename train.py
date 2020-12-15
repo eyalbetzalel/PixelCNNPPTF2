@@ -6,6 +6,8 @@ from models.PixelCNNPP import PixelCNNPP
 from utils.losses import logistic_mixture_loss
 import matplotlib.pyplot as plt
 
+# Test
+
 ######### Sample ##############
 
 def imsave(batch_or_tensor, title=None, figsize=None, filename="sample.png"):
