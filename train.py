@@ -66,7 +66,7 @@ def train(
 
     with strategy.scope():
         
-        import ipdb; ipdb.set_trace()
+
         model = model_cls(inputs_shape)
         model.build(inputs_shape)
 
@@ -91,9 +91,6 @@ def train(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
                     # import ipdb;ipdb.set_trace()
-                    print("mixture:")
-                    print(mixture)
-                    print(inputs)
                     scce = tf.keras.losses.SparseCategoricalCrossentropy()
                     loss = scce(inputs, mixture).numpy()
 
@@ -115,8 +112,7 @@ def train(
                 # loss = logistic_mixture_loss(
                 #     inputs, mixture, num_mixtures=model.num_mixtures
                 # )
-                import ipdb;
-                ipdb.set_trace()
+
                 scce = tf.keras.losses.SparseCategoricalCrossentropy()
                 loss = scce(inputs, mixture).numpy()
 
@@ -146,6 +142,7 @@ def train(
             unit="images",
             unit_scale=global_batch_size,
         ):
+            import ipdb; ipdb.set_trace()
             aggregate_loss = train_step(batch)
 
             train_loss.update_state(aggregate_loss)
