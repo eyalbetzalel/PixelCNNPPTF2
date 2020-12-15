@@ -116,8 +116,8 @@ def train(
                     # loss = logistic_mixture_loss(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
-                    # import ipdb;ipdb.set_trace()
 
+                    import ipdb;ipdb.set_trace()
                     scce = tf.keras.losses.SparseCategoricalCrossentropy()
                     loss = scce(inputs, mixture).numpy()
 
