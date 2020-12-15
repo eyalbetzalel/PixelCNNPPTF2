@@ -11,7 +11,7 @@ tf.compat.v1.enable_eager_execution()
 global clusters
 pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"  # TODO : add path to cluster dir
 clusters = np.load(pathToCluster)
-clusters = tf.convert_to_tensor(clusters, tf.dtypes.int32)
+clusters = tf.convert_to_tensor(clusters, tf.dtypes.int64)
 
 ######### Sample ##############
 
