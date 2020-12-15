@@ -108,7 +108,7 @@ def train(
             def step_fn(inputs):
                 with tf.GradientTape() as tape:
                     # mixture = model(tf.map_fn(clusters_to_images,inputs), training=True)
-                    mixture = model(tf.map_fn(clusters_to_images, inputs, parallel_iterations=32), training=True)
+                    mixture = model(tf.map_fn(clusters_to_images, inputs), training=True)
                     # loss = logistic_mixture_loss(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
