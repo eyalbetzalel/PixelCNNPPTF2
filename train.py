@@ -7,9 +7,9 @@ from utils.losses import logistic_mixture_loss
 import matplotlib.pyplot as plt
 import numpy as np
 
+global clusters
 pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"  # TODO : add path to cluster dir
 clusters = np.load(pathToCluster)
-global clusters
 
 ######### Sample ##############
 
