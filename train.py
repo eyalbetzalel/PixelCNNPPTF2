@@ -86,12 +86,15 @@ def train(
         @tf.function
         def train_step(batch):
 
+            def clusters_to_images(samples):
+                pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
+                clusters = np.load(pathToCluster)
+                samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in samples]
+                return samples
+
             def step_fn(inputs):
                 with tf.GradientTape() as tape:
-                    pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
-                    clusters = np.load(pathToCluster)
-                    inputs_3ch = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in inputs]
-                    mixture = model(inputs_3ch, training=True)
+                    mixture = model(clusters_to_images(inputs), training=True)
                     # loss = logistic_mixture_loss(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
@@ -112,14 +115,8 @@ def train(
         @tf.function
         def eval_step(batch):
 
-            def clusters_to_images(samples):
-                pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
-                clusters = np.load(pathToCluster)
-                samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in samples]
-                return samples
-
             def step_fn(inputs):
-                mixture = model(clusters_to_images(inputs), training=False)
+                mixture = model(inputs, training=False)
                 
                 # loss = logistic_mixture_loss(
                 #     inputs, mixture, num_mixtures=model.num_mixtures
@@ -135,6 +132,13 @@ def train(
                 tf.distribute.ReduceOp.SUM, per_replica_loss, axis=None
             )
 
+    def clusters_to_images(samples):
+        pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
+        clusters = np.load(pathToCluster)
+        samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32)
+                   for s in samples]
+        return samples
+
     bpd = lambda loss: loss / (
         global_batch_size * tf.math.log(2.0) * width * height * channels
     )
@@ -143,6 +147,9 @@ def train(
 
     eval_loss = tf.keras.metrics.Mean("eval_loss")
     eval_bpd = tf.keras.metrics.Mean("eval_bpd")
+
+
+
     for epoch in trange(1, max_epoch + 1, initial=1):
         train_loss.reset_states()
         train_bpd.reset_states()
