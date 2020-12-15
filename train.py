@@ -5,6 +5,7 @@ from tqdm import trange, tqdm
 from models.PixelCNNPP import PixelCNNPP
 from utils.losses import logistic_mixture_loss
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 ######### Sample ##############
@@ -84,9 +85,16 @@ def train(
 
         @tf.function
         def train_step(batch):
+
+            def clusters_to_images(samples):
+                pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
+                clusters = np.load(pathToCluster)
+                samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in samples]
+                return samples
+
             def step_fn(inputs):
                 with tf.GradientTape() as tape:
-                    mixture = model(inputs, training=True)
+                    mixture = model(clusters_to_images(inputs), training=True)
                     # loss = logistic_mixture_loss(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
@@ -106,8 +114,15 @@ def train(
 
         @tf.function
         def eval_step(batch):
+
+            def clusters_to_images(samples):
+                pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
+                clusters = np.load(pathToCluster)
+                samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in samples]
+                return samples
+
             def step_fn(inputs):
-                mixture = model(inputs, training=False)
+                mixture = model(clusters_to_images(inputs), training=False)
                 
                 # loss = logistic_mixture_loss(
                 #     inputs, mixture, num_mixtures=model.num_mixtures
