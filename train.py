@@ -90,12 +90,13 @@ def train(
         def clusters_to_images(samples):
 
             def inside_temp(samples):
-                samples = samples.numpy()
-                samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
+                # samples = samples.numpy()
+                # samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
+                samples = np.reshape(np.rint(127.5 * (clusters[samples] + 1.0)), [32, 32, 3])
                 samples = tf.convert_to_tensor(samples, np.float32)
                 return samples
 
-            samples = tf.py_function(func=inside_temp, inp=samples, Tout=tf.float32)
+            samples = tf.py_function(func=inside_temp, inp=samples.numpy().astype(int).tolist(), Tout=tf.float32)
 
             return samples
 
