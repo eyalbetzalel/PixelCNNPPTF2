@@ -82,6 +82,7 @@ class PixelCNNPP(tf.keras.Model):
         # TODO >> Change to 512 softmax values for each pixel:
         import ipdb; ipdb.set_trace()
         self.output_conv = WeightNormalization(tf.keras.layers.Conv2D(num_params, 1))
+        self.dense = tf.keras.layers.Dense(32,32,32,3,512)
 
     def call(self, inputs, training=False):
         # Init convs
@@ -115,7 +116,7 @@ class PixelCNNPP(tf.keras.Model):
             len(vertical_stream) == 0 and len(horizontal_stream) == 0
         ), "Vertical or horizontal stream is not empty"
 
-        return self.output_conv(self.activation(horizontal))
+        return tf.keras.activations.softmax(self.dense(self.output_conv(self.activation(horizontal))))
 
     @tf.function
     def _sample_from_mixture(self, inputs):
