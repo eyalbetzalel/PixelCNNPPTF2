@@ -1,5 +1,4 @@
 import tensorflow as tf
-tf.enable_eager_execution()
 import gin
 import logging
 from tqdm import trange, tqdm
@@ -88,7 +87,7 @@ def train(
     with strategy.scope():
 
         def clusters_to_images(samples):
-            samples = samples.numpy()
+            samples = tf.Session().run(samples)
             samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
             samples = tf.convert_to_tensor(samples, np.float32)
             return samples
