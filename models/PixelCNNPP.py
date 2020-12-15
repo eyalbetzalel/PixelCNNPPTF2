@@ -1,6 +1,6 @@
 import tensorflow as tf
 import gin
-
+import numpy as np
 from layers.PixelCNNBlock import PixelCNNBlock
 from layers.VerticalConv2D import VerticalConv2D
 from layers.HorizontalConv2D import HorizontalConv2D

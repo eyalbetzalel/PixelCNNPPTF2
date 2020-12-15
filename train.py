@@ -7,6 +7,9 @@ from utils.losses import logistic_mixture_loss
 import matplotlib.pyplot as plt
 import numpy as np
 
+pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"  # TODO : add path to cluster dir
+clusters = np.load(pathToCluster)
+global clusters
 
 ######### Sample ##############
 
@@ -83,18 +86,18 @@ def train(
 
     with strategy.scope():
 
+        def clusters_to_images(samples):
+            samples = samples.numpy()
+            samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
+            samples = tf.convert_to_tensor(samples, np.float32)
+            return samples
+
         @tf.function
         def train_step(batch):
 
-            def clusters_to_images(samples):
-                pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
-                clusters = np.load(pathToCluster)
-                samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in samples]
-                return samples
-
             def step_fn(inputs):
                 with tf.GradientTape() as tape:
-                    mixture = model(clusters_to_images(inputs), training=True)
+                    mixture = model(tf.map_fn(clusters_to_images,inputs), training=True)
                     # loss = logistic_mixture_loss(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
@@ -131,13 +134,6 @@ def train(
             return strategy.reduce(
                 tf.distribute.ReduceOp.SUM, per_replica_loss, axis=None
             )
-
-    def clusters_to_images(samples):
-        pathToCluster = r"/home/dsi/eyalbetzalel/image-gpt/downloads/kmeans_centers.npy"
-        clusters = np.load(pathToCluster)
-        samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32)
-                   for s in samples]
-        return samples
 
     bpd = lambda loss: loss / (
         global_batch_size * tf.math.log(2.0) * width * height * channels
