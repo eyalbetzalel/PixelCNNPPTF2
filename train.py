@@ -89,7 +89,7 @@ def train(
     with strategy.scope():
 
         def clusters_to_images(samples):
-            test = tf.gather(clusters,samples)
+            test = tf.gather(clusters,tf.cast(samples,tf.dtypes.int32))
 
 
             # samples = samples.numpy()
