@@ -88,10 +88,18 @@ def train(
     with strategy.scope():
 
         def clusters_to_images(samples):
-            samples = samples.numpy()
-            samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
-            samples = tf.convert_to_tensor(samples, np.float32)
+
+            def inside_temp(samples):
+                samples = samples.numpy()
+                samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
+                samples = tf.convert_to_tensor(samples, np.float32)
+                return samples
+
+            samples = tf.py_function(func=inside_temp, inp=samples, Tout=tf.float32)
+
             return samples
+
+
 
 
         # @tf.function
@@ -100,7 +108,7 @@ def train(
             def step_fn(inputs):
                 with tf.GradientTape() as tape:
                     # mixture = model(tf.map_fn(clusters_to_images,inputs), training=True)
-                    mixture = model(tf.map_fn(tf.py_function(func = clusters_to_images, inp = inputs, Tout= tf.float32), inputs), training=True)
+                    mixture = model(tf.map_fn(clusters_to_images, inputs), training=True)
                     # loss = logistic_mixture_loss(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
