@@ -6,7 +6,6 @@ from models.PixelCNNPP import PixelCNNPP
 from utils.losses import logistic_mixture_loss
 import matplotlib.pyplot as plt
 
-# Test
 
 ######### Sample ##############
 
