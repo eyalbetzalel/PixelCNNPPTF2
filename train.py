@@ -90,7 +90,7 @@ def train(
 
         def clusters_to_images(samples):
             test = tf.gather(clusters,tf.cast(samples,tf.dtypes.int32))
-
+            test = tf.reshape(test, [32,32,32,3])
 
             # samples = samples.numpy()
             # samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
