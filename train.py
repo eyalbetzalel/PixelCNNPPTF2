@@ -89,7 +89,7 @@ def train(
     with strategy.scope():
 
         def clusters_to_images(samples):
-            test = tf.gather_nd(clusters,samples)
+            test = tf.gather(clusters,samples)
 
             # samples = samples.numpy()
             # samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
