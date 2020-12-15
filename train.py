@@ -87,7 +87,7 @@ def train(
     with strategy.scope():
 
         def clusters_to_images(samples):
-            samples = tf.compat.v1.Session().run(samples)
+            samples = tf.compat.v1.Session().run(tf.cast(samples,int))
             samples = np.reshape(np.rint(127.5 * (clusters[samples.astype(int).tolist()] + 1.0)), [32, 32, 3])
             samples = tf.convert_to_tensor(samples, np.float32)
             return samples
