@@ -65,6 +65,7 @@ def train(
     structure = tf.data.experimental.get_structure(train_iterator)
     _, width, height, channels = structure.shape.as_list()
     inputs_shape = tf.TensorShape([None, width, height, channels])
+    inputs_shape = tf.TensorShape([32,32,32,3])
     
     learning_rate_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
         learning_rate, max_epoch, learning_rate_decay
@@ -104,9 +105,6 @@ def train(
             # samples = tf.py_function(func=inside_temp, inp=samples, Tout=tf.float32)
 
             return test
-
-
-
 
         @tf.function
         def train_step(batch):

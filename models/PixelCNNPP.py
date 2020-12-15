@@ -76,7 +76,7 @@ class PixelCNNPP(tf.keras.Model):
             + (num_mixtures * binomial_2(num_channels))
         )
         import ipdb; ipdb.set_trace()
-        num_params = [input_shape]
+        num_params = input_shape
         num_params = num_params[-1] 
         
         # TODO >> Change to 512 softmax values for each pixel:
