@@ -20,7 +20,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
 
     def load_h5_dataset(directory):
         print(" --------------------------------- ")
-        print("Strat loading Datasat from H5DF files...")
+        print("Start loading Datasat from H5DF files...")
         data = []
 
         for filename in os.listdir(directory):
@@ -49,7 +49,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
         clusters = np.load(pathToCluster)
         import ipdb;
         ipdb.set_trace()
-        samples = [np.reshape(np.rint(127.5 * (clusters[int(s)] + 1.0)), [32, 32, 3]).astype(np.uint8) for s in samples]
+        samples = [np.reshape(np.rint(127.5 * (clusters[(s)] + 1.0)), [32, 32, 3]).astype(np.uint8) for s in samples]
         
         return samples_images
         
