@@ -87,9 +87,13 @@ def train(
             def step_fn(inputs):
                 with tf.GradientTape() as tape:
                     mixture = model(inputs, training=True)
-                    loss = logistic_mixture_loss(
-                        inputs, mixture, num_mixtures=model.num_mixtures
-                    )
+                    # loss = logistic_mixture_loss(
+                    #     inputs, mixture, num_mixtures=model.num_mixtures
+                    # )
+                    import ipdb;
+                    ipdb.set_trace()
+                    scce = tf.keras.losses.SparseCategoricalCrossentropy()
+                    loss = scce(inputs, mixture).numpy()
 
                 grads = tape.gradient(loss, model.trainable_variables)
                 optimizer.apply_gradients(zip(grads, model.trainable_variables))
@@ -109,7 +113,8 @@ def train(
                 # loss = logistic_mixture_loss(
                 #     inputs, mixture, num_mixtures=model.num_mixtures
                 # )
-                
+                import ipdb;
+                ipdb.set_trace()
                 scce = tf.keras.losses.SparseCategoricalCrossentropy()
                 loss = scce(inputs, mixture).numpy()
 
