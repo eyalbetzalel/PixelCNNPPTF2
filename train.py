@@ -102,7 +102,7 @@ def train(
 
 
 
-        # @tf.function
+        @tf.function
         def train_step(batch):
 
             def step_fn(inputs):
@@ -126,7 +126,7 @@ def train(
                 tf.distribute.ReduceOp.SUM, per_replica_loss, axis=None
             )
 
-        # @tf.function
+        @tf.function
         def eval_step(batch):
 
             def step_fn(inputs):
