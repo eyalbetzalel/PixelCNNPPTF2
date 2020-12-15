@@ -53,7 +53,7 @@ def dataset(batch_size=32, image_size=32, buffer_size=10000):
 
 
         samples = [np.reshape(np.rint(127.5 * (clusters[s.astype(int).tolist()] + 1.0)), [32, 32, 3]).astype(np.float32) for s in samples]
-        [float(i) for i in samples]
+
         import ipdb; ipdb.set_trace()
         return samples
         
