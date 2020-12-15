@@ -100,7 +100,7 @@ def train(
             def step_fn(inputs):
                 with tf.GradientTape() as tape:
                     # mixture = model(tf.map_fn(clusters_to_images,inputs), training=True)
-                    mixture = model(tf.map_fn(tf.py_function(func = clusters_to_images, inp = inputs, Tout= tf.float32)), training=True)
+                    mixture = model(tf.map_fn(tf.py_function(func = clusters_to_images, inp = inputs, Tout= tf.float32), inputs), training=True)
                     # loss = logistic_mixture_loss(
                     #     inputs, mixture, num_mixtures=model.num_mixtures
                     # )
@@ -160,7 +160,7 @@ def train(
             unit="images",
             unit_scale=global_batch_size,
         ):
-            import ipdb; ipdb.set_trace()
+
             aggregate_loss = train_step(batch)
 
             train_loss.update_state(aggregate_loss)
