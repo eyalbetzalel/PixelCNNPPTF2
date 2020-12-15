@@ -82,7 +82,7 @@ class PixelCNNPP(tf.keras.Model):
         # TODO >> Change to 512 softmax values for each pixel:
         import ipdb; ipdb.set_trace()
         self.output_conv = WeightNormalization(tf.keras.layers.Conv2D(num_params, 1))
-        self.dense = tf.keras.layers.Dense(32,32,32,3,512)
+        self.dense = tf.keras.layers.Dense([32,32,3,512])
 
     def call(self, inputs, training=False):
         # Init convs
