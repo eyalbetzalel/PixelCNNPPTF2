@@ -80,7 +80,7 @@ class PixelCNNPP(tf.keras.Model):
         num_params = num_params[-1] 
         
         # TODO >> Change to 512 softmax values for each pixel:
-
+        import ipdb; ipdb.set_trace()
         self.output_conv = WeightNormalization(tf.keras.layers.Conv2D(num_params, 1))
 
     def call(self, inputs, training=False):
